@@ -91,10 +91,12 @@ sueldoPorTrabajo(conductor(Experiencia), Sueldo):-
     Sueldo is (Experiencia * 10000).
 sueldoPorTrabajo(reportero(Experiencia, Notas), Sueldo):-
     Sueldo is (Experiencia * 10000 + Notas * 100).
-sueldoPorTrabajo(periodista(Experiencia, licenciatura), Sueldo):-
-    Sueldo is (Experiencia * 5000 * 1.2).
-sueldoPorTrabajo(periodista(Experiencia, posgrado), Sueldo):-
-    Sueldo is (Experiencia * 5000 * 1.35).
+sueldoPorTrabajo(periodista(Experiencia, Titulo), Sueldo):-
+    aumentoPorTitulo(Titulo, Aumento),
+    Sueldo is (Experiencia * 5000 * (1 + Aumento / 100)).
+
+aumentoPorTitulo(licenciatura, 20).
+aumentoPorTitulo(posgrado, 35).
 
 % Punto 6
 % Agregar un nuevo trabajador que tenga otro tipo de trabajo nuevo distinto a los anteriores. Agregar una forma de calcular el sueldo para el nuevo 
