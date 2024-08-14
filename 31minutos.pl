@@ -27,10 +27,21 @@ rankingTop3(junio, 3, lala).
 % Punto 1
 % Saber si una canción es un hit, lo cual ocurre si aparece en el ranking top 3 de todos los meses.
 % Ejemplo: No hay ningún hit actualmente. Por ejemplo, a Tangananica Tanganana le falta estar en mayo y a Lala le falta abril y mayo.
+esUnHit(Cancion):-
+    cancion(Cancion, _, _),
+    apareceTodosLosMeses(Cancion).
+apareceTodosLosMeses(Cancion):-
+    forall(rankingTop3(Mes, _, _), rankingTop3(Mes, _, Cancion)).
 
 % Punto 2
 % Saber si una canción no es reconocida por los críticos, lo cual ocurre si tiene muchas reproducciones y nunca estuvo en el ranking. 
 % Una canción tiene muchas reproducciones si tiene más de 7000000 reproducciones
+tieneMuchasReproducciones(Cancion):-
+    cancion(Cancion, _, Reproducciones),
+    Reproducciones > 7000000.
+noEsReconocidaPorCriticos(Cancion):-
+    tieneMuchasReproducciones(Cancion),
+    not(rankingTop3(_, _, Cancion)).
 
 % Punto 3
 % Saber si dos compositores son colaboradores, lo cual ocurre si compusieron alguna canción juntos.
